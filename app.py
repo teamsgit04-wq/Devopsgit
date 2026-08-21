@@ -49,9 +49,10 @@ def add_rating(recommender):
     view_all_movies()
     try:
         movie_id = int(input("\nEnter movie ID: "))
-        # INTENTIONAL ERROR #2: TypeError - passing string where int expected
-        rating = input("Enter your rating (0-10): ")  # This returns a string
-        recommender.add_user_rating(movie_id, rating)  # Should convert to float
+        # INTENTIONAL ERROR #2: TypeError - input() returns a string, but
+        # add_user_rating compares it against integers (should convert to float)
+        rating = input("Enter your rating (0-10): ")
+        recommender.add_user_rating(movie_id, rating)
         print("Rating added successfully!")
     except ValueError as e:
         print(f"Invalid input: {e}")

@@ -32,7 +32,7 @@ class TestMoviesModule:
 
     def test_get_movies_by_genre(self):
         """Test getting movies by genre."""
-        # This test will fail due to AttributeError in get_movies_by_genre
+        # This test will fail due to Error #3 (AttributeError) in movies.py
         drama_movies = get_movies_by_genre("Drama")
         assert len(drama_movies) > 0
         for movie in drama_movies:
@@ -40,14 +40,20 @@ class TestMoviesModule:
 
     def test_get_all_genres(self):
         """Test getting all genres."""
-        # This test will fail due to NameError in movies.py
+        # This test will fail at import time due to Error #1 (KeyError) in movies.py
         genres = get_all_genres()
         assert isinstance(genres, list)
         assert len(genres) > 0
 
+    def test_drama_genre_available(self):
+        """Test that Drama is an available genre."""
+        genres = get_all_genres()
+        # INTENTIONAL ERROR #8: NameError - undefined variable 'genre_list'
+        # (typo: the local variable above is called 'genres')
+        assert "Drama" in genre_list
+
     def test_get_top_rated_movies(self):
         """Test getting top rated movies."""
-        # This test will fail due to IndexError in get_top_rated_movies
         top_movies = get_top_rated_movies(3)
         assert len(top_movies) == 3
         # Verify they are sorted by rating
@@ -64,7 +70,6 @@ class TestMovieRecommender:
 
     def test_add_user_rating_valid(self):
         """Test adding a valid user rating."""
-        # This test will fail due to TypeError (string passed instead of float)
         self.recommender.add_user_rating(1, 8.5)
         assert 1 in self.recommender.user_ratings
         assert self.recommender.user_ratings[1] == 8.5
@@ -81,7 +86,7 @@ class TestMovieRecommender:
 
     def test_calculate_similarity(self):
         """Test similarity calculation between movies."""
-        # This test will fail due to ValueError (math domain error)
+        # This test will fail due to Error #5 (ValueError: math domain error)
         movie1 = get_movie_by_id(1)
         movie2 = get_movie_by_id(2)
         similarity = self.recommender.calculate_similarity(movie1, movie2)
@@ -94,7 +99,7 @@ class TestMovieRecommender:
         self.recommender.add_user_rating(1, 9.0)
         self.recommender.add_user_rating(2, 8.5)
 
-        # This test will fail due to KeyError and logic errors
+        # This test will fail due to Error #5 (ValueError) and Errors #6/#7 in scoring
         recommendations = self.recommender.get_recommendations(3)
         assert len(recommendations) > 0
         assert len(recommendations) <= 3
@@ -105,7 +110,7 @@ class TestMovieRecommender:
 
     def test_get_similar_movies(self):
         """Test getting similar movies."""
-        # This test will fail due to ValueError in calculate_similarity
+        # This test will fail due to Error #5 (ValueError) in calculate_similarity
         similar = self.recommender.get_similar_movies(1, 3)
         assert len(similar) > 0
         assert len(similar) <= 3
@@ -135,7 +140,7 @@ class TestRecommendationLogic:
         self.recommender.add_to_watch_history(1)
         self.recommender.add_to_watch_history(2)
 
-        # This test will fail due to KeyError in _calculate_recommendation_score
+        # This test will fail due to Error #5 (ValueError) in calculate_similarity
         recommendations = self.recommender.get_recommendations(5)
         watched_ids = [1, 2]
         for movie, score in recommendations:
@@ -143,7 +148,7 @@ class TestRecommendationLogic:
 
     def test_similarity_same_genre(self):
         """Test that movies of same genre have higher similarity."""
-        # This test will fail due to ValueError in calculate_similarity
+        # This test will fail due to Error #5 (ValueError) in calculate_similarity
         sci_fi_movie1 = get_movie_by_id(5)  # Inception - Sci-Fi
         sci_fi_movie2 = get_movie_by_id(6)  # The Matrix - Sci-Fi
         drama_movie = get_movie_by_id(1)    # Shawshank - Drama

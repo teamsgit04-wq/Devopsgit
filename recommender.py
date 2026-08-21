@@ -1,6 +1,6 @@
 """Movie Recommendation Engine module."""
 
-# INTENTIONAL ERROR #6: ImportError - importing from non-existent module
+# INTENTIONAL ERROR #4: ModuleNotFoundError - 'movies_nonexistent' module does not exist
 from movies_nonexistent import MOVIES_DATABASE, get_movie_by_id, get_movies_by_genre
 
 import math
@@ -15,8 +15,9 @@ class MovieRecommender:
 
     def add_user_rating(self, movie_id, rating):
         """Add a user rating for a movie."""
-        # INTENTIONAL ERROR #2: TypeError - passing string "8.5" instead of float 8.5
-        # The validation will compare string to number
+        # NOTE: INTENTIONAL ERROR #2 (from app.py) surfaces here as a TypeError:
+        # if a string rating is passed in, the comparison below raises
+        # TypeError: '<' not supported between instances of 'str' and 'int'
         if rating < 0 or rating > 10:
             raise ValueError("Rating must be between 0 and 10")
         self.user_ratings[movie_id] = rating
@@ -27,7 +28,7 @@ class MovieRecommender:
 
     def calculate_similarity(self, movie1, movie2):
         """Calculate similarity score between two movies based on genre and rating."""
-        # INTENTIONAL ERROR #7: ValueError - math domain error from negative sqrt
+        # INTENTIONAL ERROR #5: ValueError - math domain error from negative sqrt
         genre_match = 1 if movie1["genre"] == movie2["genre"] else 0
         rating_diff = movie1["rating"] - movie2["rating"]
 
@@ -40,7 +41,7 @@ class MovieRecommender:
         if not self.user_ratings:
             return []
 
-        # INTENTIONAL ERROR #8: Logic Error
+        # INTENTIONAL ERROR #7: Logic Error
         # Should calculate similarity scores but instead just returns random movies
         # The logic is inverted - returns least similar movies
         recommendations = []
@@ -51,8 +52,8 @@ class MovieRecommender:
                 score = self._calculate_recommendation_score(movie)
                 recommendations.append((movie, score))
 
-        # INTENTIONAL ERROR: Sorting in wrong order (ascending instead of descending)
-        # This means worst recommendations come first
+        # INTENTIONAL ERROR #7 (continued): Sorting in wrong order (ascending instead
+        # of descending) - this means the worst recommendations come first
         recommendations.sort(key=lambda x: x[1])
 
         return recommendations[:count]
@@ -68,7 +69,7 @@ class MovieRecommender:
                 similarity = self.calculate_similarity(rated_movie, movie)
                 score += similarity * rating
 
-        # INTENTIONAL ERROR #4: KeyError - accessing non-existent key
+        # INTENTIONAL ERROR #6: KeyError - accessing non-existent key
         # The movie dict has "rating" not "score"
         score += movie["score"]
 
@@ -93,21 +94,3 @@ class MovieRecommender:
         """Clear user watch history and ratings."""
         self.user_ratings = {}
         self.watch_history = []
-# Movie Recommendation System
-
-movies = [
-    "Leo",
-    "Jailer",
-    "Vikram",
-    "Master"
-]
-
-def recommend_movie():
-    movie_name = input("Enter movie name: ")
-
-    # Intentional error for testing
-    movie = movies_database[movie_name]
-
-    print("Recommended Movie:", movie)
-
-recommend_movie()

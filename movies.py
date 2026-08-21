@@ -1,7 +1,7 @@
 """Movie database module for the Movie Recommendation System."""
 
-# INTENTIONAL ERROR #1: NameError - Using undefined variable 'genere' instead of 'genre'
-# This will cause a NameError when the module is imported
+# INTENTIONAL ERROR #1: KeyError - wrong dictionary key 'genere' (should be 'genre')
+# This error fires when VALID_GENRES is built below and blocks importing this module
 
 MOVIES_DATABASE = [
     {
@@ -70,8 +70,7 @@ MOVIES_DATABASE = [
     }
 ]
 
-# INTENTIONAL ERROR #1: NameError - 'genere' is undefined (should be 'genre')
-# This line references an undefined variable
+# INTENTIONAL ERROR #1: KeyError - 'genere' is not a valid key (should be 'genre')
 VALID_GENRES = list(set(movie["genere"] for movie in MOVIES_DATABASE))
 
 
@@ -85,7 +84,7 @@ def get_movie_by_id(movie_id):
 
 def get_movies_by_genre(genre):
     """Get all movies of a specific genre."""
-    # INTENTIONAL ERROR #5: AttributeError - list has no attribute 'filter'
+    # INTENTIONAL ERROR #3: AttributeError - list has no attribute 'filter'
     # Should use list comprehension or filter() function
     return MOVIES_DATABASE.filter(lambda m: m["genre"] == genre)
 
@@ -98,9 +97,7 @@ def get_all_genres():
 def get_top_rated_movies(count=5):
     """Get top rated movies."""
     sorted_movies = sorted(MOVIES_DATABASE, key=lambda x: x["rating"], reverse=True)
-    # INTENTIONAL ERROR #3: IndexError - accessing index that doesn't exist
-    # If count > len(sorted_movies), this will fail
-    return sorted_movies[:count + 2]
+    return sorted_movies[:count]
 
 
 def search_movies_by_director(director):

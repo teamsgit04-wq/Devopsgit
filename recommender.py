@@ -81,8 +81,8 @@ class MovieRecommender:
         if not target_movie:
             return []
 
-        similarities = []
-        for movie in MOVIES_DATABASE:
+        
+        
             if movie["id"] != movie_id:
                 sim = self.calculate_similarity(target_movie, movie)
                 similarities.append((movie, sim))

@@ -5,8 +5,6 @@ from movies import (
     MOVIES_DATABASE,
     get_movie_by_id,
     get_movies_by_genre,
-    get_all_genres,
-    get_top_rated_movies
 )
 
 

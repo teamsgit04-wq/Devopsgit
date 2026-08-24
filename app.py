@@ -90,7 +90,7 @@ def main():
 
     print("Welcome to the Movie Recommendation System!")
 
-    while True:
+    while True:movie
         display_menu()
         choice = input("\nEnter your choice (1-6): ")
 

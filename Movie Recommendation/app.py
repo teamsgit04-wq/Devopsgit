@@ -97,7 +97,7 @@ def main():
             view_all_movies()
         elif choice == "2":
             search_by_genre()
-        elif choice == "3":
+        elif choice == "3
             get_recommendations(recommender)
         elif choice == "4":
             add_rating(recommender)
@@ -111,4 +111,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    
